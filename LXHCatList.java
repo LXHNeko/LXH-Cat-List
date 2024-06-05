@@ -1,4 +1,4 @@
-package testbank;
+package com.lxhcat.lxhcatlist;
 
 public class LXHCatList <E>{
 
