@@ -3,6 +3,21 @@ package com.lxhcat.lxhcatlist;
 public class LXHCatList <E>{
 
     /*
+        方法说明：
+        public LXHCatList() 无参构造
+        public LXHCatList(int initialCapacity) 有参构造
+        private void grow() 扩容
+        public void add(E e) 增加 e: 要增加的元素
+        public void delete(int index) 删除 index: 要删除的元素所对应的数组下标
+        public void edit(int replaceTargetIndex, E e) 编辑，也可以叫覆盖 replaceTargetIndex: 想要覆盖的元素对应下标 e: 要替换的元素
+        public int indexOf(E e) 查找元素在数组中对应的下标，返回下标值 e: 要查找的元素
+        public E get(int index) 获取数组对应下标内存储的元素，返回元素(地址值) index: 获取的元素在数组中对应的下标
+        public boolean contains(E e) 查找数组内是否包含某个元素，返回布尔素(是否包含) e: 需要查找的元素
+        public void clear() 清空数组
+        public int capacity() 获取容量，返回容量
+        public int size() 获取长度，返回长度
+        public boolean isEmpty() 判断集合是否是空集合，返回布尔素(是否为空)
+
         本类中认为的两类变量名含义说明：
         capacity: 本类中记为可用长度（容量），如给定了初始化长度为5，但未存储任何元素，此时capacity仍为5
         size: 本类中记为长度，和上述capacity不同，只算存储的元素数量，如使用上述例子，则capacity=5，size=0
