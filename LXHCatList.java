@@ -76,12 +76,9 @@ public class LXHCatList <E>{
     // 删除 index: 要删除的元素所对应的数组下标
     public void delete(int index){
         if(index < 0 || index >= size()){ // 如果范围超出合法范围，直接抛出异常
-            throw new ArrayIndexOutOfBoundsException("Cannot find the element that need to delete with the illegal index provided: " + index);
+            throw new IndexOutOfBoundsException("Cannot find the element that need to delete with the illegal index provided: " + index);
         }
-        elements[index] = null; // 先把传入的下标变成null，也就完成了删除操作
-        int i = 0;
-//        for(int i = index + 1; i < size(); i++){
-//            elements[i - 1] = elements[i];
+        int i;
         for(i = index; i < size(); i++){ // 再从[删除的下标+1]存储的元素开始一直到最后一个非null元素，这个范围整体通过遍历一个一个向前移
             elements[i] = elements[i + 1]; // 也就是从被删除的下标开始(i)，每次都把后一个元素的下标(i+1)所存储的元素往前移一位(也就是一个个的赋值)
         }
@@ -92,7 +89,7 @@ public class LXHCatList <E>{
     // 编辑，也可以叫覆盖 replaceTargetIndex: 想要覆盖的元素对应下标 e: 要替换的元素
     public void edit(int replaceTargetIndex, E e){
         if(replaceTargetIndex < 0 || replaceTargetIndex >= size()){ // 如果范围超出合法范围，直接抛出异常
-            throw new ArrayIndexOutOfBoundsException("Cannot edit(cover) the element with the illegal index provided: " + replaceTargetIndex);
+            throw new IndexOutOfBoundsException("Cannot edit(cover) the element with the illegal index provided: " + replaceTargetIndex);
         }
         elements[replaceTargetIndex] = e; // 直接覆盖，也就是重新赋值
     }
@@ -110,7 +107,7 @@ public class LXHCatList <E>{
     // 获取数组对应下标内存储的元素，返回元素(地址值) index: 获取的元素在数组中对应的下标
     public E get(int index){
         if(index < 0 || index >= size()){ // 如果范围超出合法范围，直接抛出异常
-            throw new ArrayIndexOutOfBoundsException("Cannot get the element with the illegal index provided: " + index);
+            throw new IndexOutOfBoundsException("Cannot get the element with the illegal index provided: " + index);
         }
         return elements[index]; // 返回元素
     }
@@ -150,3 +147,4 @@ public class LXHCatList <E>{
     }
 
 }
+
