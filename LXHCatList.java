@@ -25,7 +25,7 @@ public class LXHCatList <E>{
         size: 本类中记为长度，和上述capacity不同，只算存储的元素数量，如使用上述例子，则capacity=5，size=0
     */
     private E[] elements; // E: 泛型
-    private static final int DEFALUT_CAPACITY = 10; // 如果创建的实例化对象没有给定容量，则使用此常量作为默认容量
+    private static final int DEFAULT_CAPACITY = 10; // 如果创建的实例化对象没有给定容量，则使用此常量作为默认容量
     // private int capacity; // 容量 【本变量已废弃，使用数组的length替代】
     private int size = 0; // 长度
 
@@ -39,7 +39,7 @@ public class LXHCatList <E>{
         // (E[])实际上本质是一种强转，和(int)(double)这种是一样的
         // 所以这行代码的意思就是把这个Object类型的数组(也就是new Object[defaultCapacity])强转成E[](泛型的数组)，然后赋值给elements
         // 创建完成后，要把刚才创建的数组的地址值((E[]) new Object[initialCapacity])赋值给elements
-        elements = (E[]) new Object[defaultCapacity]; // 无参，所以使用默认初始化容量
+        elements = (E[]) new Object[DEFAULT_CAPACITY]; // 无参，所以使用默认初始化容量
         // capacity = defaultCapacity; // 创建完成后，要把defaultCapacity赋值给capacity，这样，capacity(容量变量)就得到了更新
     }
     @SuppressWarnings("unchecked")
@@ -131,9 +131,7 @@ public class LXHCatList <E>{
     // 清空数组
     public void clear(){
         for (int i = 0; i < size; i++) { // 遍历清空数组
-            if(elements[i] != null){
-                elements[i] = null;
-            }
+            elements[i] = null;
         }
         size = 0;  // 清空数组后把长度更新为0
     }
@@ -154,6 +152,7 @@ public class LXHCatList <E>{
     }
 
 }
+
 
 
 
