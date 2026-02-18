@@ -1,5 +1,7 @@
 package com.lxhcat.lxhcatlist;
 
+import java.util.Objects;
+
 public class LXHCatList <E>{
 
     /*
@@ -19,12 +21,12 @@ public class LXHCatList <E>{
         public boolean isEmpty() 判断集合是否是空集合，返回布尔素(是否为空)
 
         本类中认为的两类变量名含义说明：
-        capacity: 本类中记为可用长度（容量），如给定了初始化长度为5，但未存储任何元素，此时capacity仍为5
+        capacity: 【本变量已废弃，使用数组的length替代】本类中记为可用长度（容量），如给定了初始化长度为5，但未存储任何元素，此时capacity仍为5
         size: 本类中记为长度，和上述capacity不同，只算存储的元素数量，如使用上述例子，则capacity=5，size=0
     */
     private E[] elements; // E: 泛型
-    private static final int defaultCapacity = 10; // 如果创建的实例化对象没有给定容量，则使用此常量作为默认容量
-    private int capacity; // 容量
+    private static final int DEFALUT_CAPACITY = 10; // 如果创建的实例化对象没有给定容量，则使用此常量作为默认容量
+    // private int capacity; // 容量 【本变量已废弃，使用数组的length替代】
     private int size = 0; // 长度
 
 
@@ -38,7 +40,7 @@ public class LXHCatList <E>{
         // 所以这行代码的意思就是把这个Object类型的数组(也就是new Object[defaultCapacity])强转成E[](泛型的数组)，然后赋值给elements
         // 创建完成后，要把刚才创建的数组的地址值((E[]) new Object[initialCapacity])赋值给elements
         elements = (E[]) new Object[defaultCapacity]; // 无参，所以使用默认初始化容量
-        capacity = defaultCapacity; // 创建完成后，要把defaultCapacity赋值给capacity，这样，capacity(容量变量)就得到了更新
+        // capacity = defaultCapacity; // 创建完成后，要把defaultCapacity赋值给capacity，这样，capacity(容量变量)就得到了更新
     }
     @SuppressWarnings("unchecked")
     public LXHCatList(int initialCapacity){ // 有参
@@ -46,27 +48,31 @@ public class LXHCatList <E>{
             throw new IllegalArgumentException("Cannot create a LXHCatList with the illegal size provided: " + initialCapacity);
         }else{
             elements = (E[]) new Object[initialCapacity]; // 创建完成后，要把刚才创建的数组的地址值((E[]) new Object[initialCapacity])赋值给elements
-            capacity = initialCapacity; // 创建完成后，要把initialCapacity赋值给capacity，这样，capacity(容量变量)就得到了更新
+            // capacity = initialCapacity; // 创建完成后，要把initialCapacity赋值给capacity，这样，capacity(容量变量)就得到了更新
         }
     }
-
+    
+    // 扩容
     @SuppressWarnings("unchecked")
-    private void grow(){ // 扩容
-        // int newCapacity = capacity + (capacity >> 1); // ">>"的数学意义：把数字乘0.5倍，所以这行代码意思是cpacity + 0.5倍的capacity，加起来也就是1.5倍的capacity
-        // int newCapacity = (int) (capacity * 1.5); // 但这里也可以直接用"*"代替
-        int newCapacity = (capacity == 1 || capacity == 0) ? (capacity + 1) : ((int) (capacity * 1.5)); // 再加上考虑容量为0或1的情况
+    private void grow(){
+        int oldCapacity = elements.length;
+    
+        int newCapacity = (oldCapacity == 0 || oldCapacity == 1) // 再加上考虑容量为0或1的情况
+                ? (oldCapacity + 1)
+                : (int)(oldCapacity * 1.5);
+    
         Object[] newArray = new Object[newCapacity]; // 创建一个新Object数组，之后会用到，因为这是所有类的父类
+    
         // System.arraycopy参数说明(从前往后依次说明)：
-        // src:要复制的源数组，srcPos:源数组中要复制的起始位置，dest:目标数组(用于接收复制的元素)，destPos:目标数组中开始粘贴的起始位置，length:要复制的元素数量
-        System.arraycopy(elements, 0, newArray, 0, elements.length);
-
+        // src:要复制的源数组，srcPos:源数组中要复制的起始位置，dest:目标数组(用于接收复制的元素)，destPos:目标数组中开始粘贴的起始位置，size:当前数组实际包含元素的个数（逻辑长度）
+        System.arraycopy(elements, 0, newArray, 0, size);
+    
         elements = (E[]) newArray; // 复制完成后，要把新数组的地址值((E[]) newArray)赋值给旧数组的变量名(elements)
-        capacity = newCapacity; // 所有操作完成后，要把扩容后的容量赋值给capacity，让capacity(容量变量)的值更新
     }
 
     // 增加 e: 要增加的元素
     public void add(E e){
-        if(capacity == size()){ // 如果长度=容量了，那么就代表数组满了，则进入扩容
+        if(size == elements.length){ // 如果长度=容量了，那么就代表数组满了，则进入扩容
             grow();
         }
         elements[size()] = e; // 在尾部添加这个元素
@@ -134,7 +140,7 @@ public class LXHCatList <E>{
 
     // 获取容量，返回容量
     public int capacity() {
-        return capacity;
+        return elements.length;
     }
 
     // 获取长度，返回长度
@@ -148,5 +154,6 @@ public class LXHCatList <E>{
     }
 
 }
+
 
 
