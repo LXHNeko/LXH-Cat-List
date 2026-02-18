@@ -8,8 +8,8 @@ public class LXHCatList <E>{
         public LXHCatList(int initialCapacity) 有参构造
         private void grow() 扩容
         public void add(E e) 增加 e: 要增加的元素
-        public void delete(int index) 删除 index: 要删除的元素所对应的数组下标
-        public void edit(int replaceTargetIndex, E e) 编辑，也可以叫覆盖 replaceTargetIndex: 想要覆盖的元素对应下标 e: 要替换的元素
+        public void remove(int index) 删除 index: 要删除的元素所对应的数组下标
+        public void set(int replaceTargetIndex, E e) 编辑，也可以叫覆盖 replaceTargetIndex: 想要覆盖的元素对应下标 e: 要替换的元素
         public int indexOf(E e) 查找元素在数组中对应的下标，返回下标值 e: 要查找的元素
         public E get(int index) 获取数组对应下标内存储的元素，返回元素(地址值) index: 获取的元素在数组中对应的下标
         public boolean contains(E e) 查找数组内是否包含某个元素，返回布尔素(是否包含) e: 需要查找的元素
@@ -74,20 +74,20 @@ public class LXHCatList <E>{
     }
 
     // 删除 index: 要删除的元素所对应的数组下标
-    public void delete(int index){
+    public void remove(int index){
         if(index < 0 || index >= size()){ // 如果范围超出合法范围，直接抛出异常
             throw new IndexOutOfBoundsException("Cannot find the element that need to delete with the illegal index provided: " + index);
         }
         int i;
-        for(i = index; i < size(); i++){ // 再从[删除的下标+1]存储的元素开始一直到最后一个非null元素，这个范围整体通过遍历一个一个向前移
+        for(i = index; i < size() - 1; i++){ // 再从[删除的下标+1]存储的元素开始一直到最后一个非null元素，这个范围整体通过遍历一个一个向前移
             elements[i] = elements[i + 1]; // 也就是从被删除的下标开始(i)，每次都把后一个元素的下标(i+1)所存储的元素往前移一位(也就是一个个的赋值)
         }
-        elements[i] = null; // 处理最后一个尾部元素，因为删除后整体向前移了，但最后一个并没能被遍历操作所处理，所以这个删除前的最后一个元素要赋值变成null
+        elements[size() - 1] = null; // 处理最后一个尾部元素，因为删除后整体向前移了，但最后一个并没能被遍历操作所处理，所以这个删除前的最后一个元素要赋值变成null
         size--; // 删除完成后，更新size的值
     }
 
     // 编辑，也可以叫覆盖 replaceTargetIndex: 想要覆盖的元素对应下标 e: 要替换的元素
-    public void edit(int replaceTargetIndex, E e){
+    public void set(int replaceTargetIndex, E e){
         if(replaceTargetIndex < 0 || replaceTargetIndex >= size()){ // 如果范围超出合法范围，直接抛出异常
             throw new IndexOutOfBoundsException("Cannot edit(cover) the element with the illegal index provided: " + replaceTargetIndex);
         }
@@ -97,7 +97,7 @@ public class LXHCatList <E>{
     // 查找元素在数组中对应的下标，返回下标值 e: 要查找的元素
     public int indexOf(E e){
         for (int i = 0; i < size(); i++) { // 遍历检查是否包含，包含则返回对应元素下标值
-            if(elements[i].equals(e)){
+            if(Objects.equals(elements[i], e)){ // 使用Object.equals方法对比是否相等不会出现空指针异常（支持null）
                 return i;
             }
         }
@@ -115,7 +115,7 @@ public class LXHCatList <E>{
     // 查找数组内是否包含某个元素，返回布尔素(是否包含) e: 需要查找的元素
     public boolean contains(E e){
         for (int i = 0; i < size(); i++) { // 遍历检查是否包含，包含则返回true
-            if (elements[i].equals(e)) {
+            if (Objects.equals(elements[i], e)) { // 使用Object.equals方法对比是否相等不会出现空指针异常（支持null）
                 return true;
             }
         }
@@ -129,6 +129,7 @@ public class LXHCatList <E>{
                 elements[i] = null;
             }
         }
+        size = 0;  // 清空数组后把长度更新为0
     }
 
     // 获取容量，返回容量
@@ -147,4 +148,5 @@ public class LXHCatList <E>{
     }
 
 }
+
 
